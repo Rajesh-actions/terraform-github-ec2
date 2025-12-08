@@ -1,13 +1,13 @@
-name: ec2-creations
-
-on: [push] # trigger
+name: destroy-ec2
+on:
+  workflow_dispatch:   # manual trigger
 
 jobs:
-  terraform:
+  destroy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the code
+      - name: Checkout
         uses: actions/checkout@v5
 
       - name: Setup Terraform
@@ -20,15 +20,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Plan
-        run: terraform plan
-
-      - name: Terraform apply
-        run: terraform apply -auto-approve 
-
-
-
-
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
